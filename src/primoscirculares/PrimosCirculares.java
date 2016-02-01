@@ -7,8 +7,6 @@ package primoscirculares;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import static java.util.Collections.list;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,6 +65,5 @@ public class PrimosCirculares {
         
         }
         
-        System.out.println(Arrays.asList(primos));
     }
 }
