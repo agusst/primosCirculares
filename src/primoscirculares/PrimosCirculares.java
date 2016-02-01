@@ -7,6 +7,7 @@ package primoscirculares;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,10 +21,10 @@ public class PrimosCirculares {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        isPrime(100);
+        listarPrimos(200);
     }
     
-    public static void isPrime(int cota) {
+    public static void listarPrimos(int cota) {
         
         //Creo una lista para almacenar los números compuestos
         List<Integer> compuestos = new ArrayList<>();
@@ -64,6 +65,74 @@ public class PrimosCirculares {
             if (!compuestos.contains(index)) primos.add(index);
         
         }
+        
+        System.out.println(Arrays.asList(primos));
+        
+        esCircular(primos);
+        
+    }
+    
+    public static void esCircular(List<Integer> primos){
+        
+        List<Integer> excluidos = Arrays.asList(0, 2, 4, 5, 6, 8);
+        
+        List<Integer> preprocesados = new ArrayList<>();
+        
+        //Recorro la lista de nros primos
+        for(int primo: primos){
+        
+            //Creo una lista para almacenar los dìgitos del nro
+            LinkedList<Integer> stack = new LinkedList<>();
+            
+            //Creo un entero donde almacenar temporalmente los dígitos
+            int nro = primo;
+            
+            //Separo los dígitos del nro
+            while(nro > 0){
+
+                //Coloco el último dìgito en la pila
+                stack.push(nro % 10);
+
+                //Quito el último dígito del nro
+                nro = nro / 10;
+
+            }
+            
+            //Compruebo si el primo tiene más de un dígito
+            if(stack.size() > 1){
+                
+                while (!stack.isEmpty()) {
+                    
+                    //Verifico que ningún dígito del primo coincida con alguno 
+                    //de la lista de excluidos ya que si contiene uno de estos  
+                    //dígitos, por propiedad el nro primo no puede ser circular
+                    if(excluidos.contains(stack.pop())){
+                        
+                        //Si un dígito coincide, borro la pila y dejo de comprobar
+                        stack.clear();
+                        
+                        break;
+                        
+                    //Si la pila esta vacía y el último dígito no se corresponde
+                    //con ninguno de los dígitos de la lista de excluidos, añado
+                    //el primo a la lista de preprocesados
+                    }else if (stack.isEmpty()){
+                        
+                        preprocesados.add(primo);
+                        
+                    }
+                }
+                
+            } else {
+                
+                //Añado el primo a la lista de preprocesados
+                preprocesados.add(primo);
+            
+            }
+            
+        }
+            System.out.println(Arrays.asList(preprocesados));
+        
         
     }
 }
