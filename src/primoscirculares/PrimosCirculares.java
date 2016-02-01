@@ -68,14 +68,18 @@ public class PrimosCirculares {
         
         System.out.println(Arrays.asList(primos));
         
-        esCircular(primos);
+        preprocesadoPrimos(primos);
         
     }
     
-    public static void esCircular(List<Integer> primos){
+    public static void preprocesadoPrimos(List<Integer> primos){
         
+        //Creo una listo con los dígitos que por propiedad no puede tener un 
+        //nro primo circular
         List<Integer> excluidos = Arrays.asList(0, 2, 4, 5, 6, 8);
         
+        //Creo lista con los primos que deberán ser comprobados si son o no 
+        //circulares
         List<Integer> preprocesados = new ArrayList<>();
         
         //Recorro la lista de nros primos
@@ -131,8 +135,8 @@ public class PrimosCirculares {
             }
             
         }
-            System.out.println(Arrays.asList(preprocesados));
-        
+            
+        System.out.println(Arrays.asList(preprocesados));
         
     }
 }
