@@ -5,11 +5,7 @@
  */
 package primoscirculares;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -18,9 +14,11 @@ import java.util.Objects;
 public class Hilo implements Runnable{
     
     private final Thread hilo;
-    private Primos grupo;
-    private List<Integer> bloque;
+    private final Primos grupo;
+    private final List<Integer> bloque;
 
+    //Constructor del hilo, crea el hilo, con un nombre y el bloque
+    //de numeros primos sobre los cuales trabajar
     public Hilo(String name, Primos grupo, List<Integer> bloque){
         
         hilo = new Thread(this, name);
@@ -35,8 +33,11 @@ public class Hilo implements Runnable{
     
     @Override
     public void run() {
-//        System.out.println("Staring... " + hilo.getName());
+
+        //Llamo al método de preprocesado para limpiar los primos que por 
+        //propiedad no pueden ser circulares
         grupo.preprocesadoPrimos(bloque);
+        
     }
     
            

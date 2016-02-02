@@ -21,18 +21,20 @@ public class Primos {
     private static int cota;
     private static int bloque = 1;
     private static int cantidadPrimos = 0;
-    private static int limite;
-    private static int finbloque = 0;
+    private static int cantidadMin;
+    private static int inicioBloque = 0;
+    private static int finBloque = 0;
     private static Hilo[] hilos;    
     private static final List<Integer> primos = new ArrayList<>();
     private static final List<Integer> primosCirculares = new ArrayList<>();
+    private static final List<Integer> excluidos = Arrays.asList(0, 2, 4, 5, 6, 8);
    
     
     public Primos(int cantidadHilos, int cota){
         
         Primos.cantidadHilos = cantidadHilos;
         Primos.cota = cota;
-        Primos.limite = (cota*cantidadHilos)/100;
+        Primos.cantidadMin = (cota*cantidadHilos)/100;
         hilos = new Hilo [cantidadHilos];
         listarPrimos();
         
@@ -71,49 +73,46 @@ public class Primos {
             
         }
 
-        
-        
+        //Creo una lista con los nros primos
         for (int index = 2; index <= cota; index++) {
             
+            //Los nros que no esten en la lista de compuestos son nros primos
             if (!compuestos.contains(index)) primos.add(index);
             
             generarHilos(index);
         
         }
         
-//        System.out.println("Numeros primos: " + Arrays.asList(primos));
-        
-//        preprocesadoPrimos(primos);
-        
     }
     
     private void generarHilos(int index){
     
-        if(index > limite * bloque || index == cota){
+        //Divido en grupos los nros primos encontrados. Comienzo al reunir
+        //una cantidad considerable de nros primos conforme a la cantidad de hilos
+        //y la cota superior. Al llegar a la cota superior, compruebo los nros
+        //que quedan (puede que no se alcance a generar un bloque con tamaño significativo)
+        if(index > cantidadMin * bloque || index == cota){
             
-//            System.out.println(limite*bloque + " " + index);
+            int tamanioListaPrimos = primos.size();
             
-            int tam = primos.size();
+            int tamanioBloque = (tamanioListaPrimos-inicioBloque)/cantidadHilos;
             
-            int tamanio = (tam-finbloque)/cantidadHilos;
+            int resto = (tamanioListaPrimos-inicioBloque)%cantidadHilos;
             
-            int res = (tam-finbloque)%cantidadHilos;
-            
+            //Creo los hilos enviando como parámetro el bloque de nros primos
+            //sobre el cual trabajará el hilo. Dado que la división es entera
+            //debo guardar el resto para que no queden nros primos sin comprobar
             for(int i = 0; i < cantidadHilos; i++){
                 
-                List<Integer> bloquePrimos = new ArrayList<>(primos.subList(finbloque, finbloque + tamanio + res));
+                finBloque = inicioBloque + tamanioBloque + resto;
+                
+                List<Integer> bloquePrimos = new ArrayList<>(primos.subList(inicioBloque, finBloque));
                 
                 hilos[i] = new Hilo("Hilo " + i, this, bloquePrimos);
                 
-                finbloque += tamanio + res;
+                inicioBloque += tamanioBloque + resto;
                 
-                if (res != 0) res = 0;
-                
-            }
-            
-            if(index == cota-1){
-                int resto = primos.size() - finbloque;
-                
+                if (resto != 0) resto = 0;
                 
             }
 
@@ -122,14 +121,6 @@ public class Primos {
     }
     
     public void preprocesadoPrimos(List<Integer> bloquePrimos){
-        
-        //Creo una listo con los dígitos que por propiedad no puede tener un 
-        //nro primo circular
-        List<Integer> excluidos = Arrays.asList(0, 2, 4, 5, 6, 8);
-        
-        //Creo lista con los primos que deberán ser comprobados si son o no 
-        //circulares
-//        List<Integer> preprocesados = new ArrayList<>();
         
         //Recorro la lista de nros primos
         for(int primo: bloquePrimos){
@@ -192,7 +183,7 @@ public class Primos {
                 
             } else {
                                 
-                imprimirPrimo(primo);
+                imprimirPrimoCircular(primo);
             
             }
             
@@ -256,21 +247,9 @@ public class Primos {
             //el primo original a la lista de primos circulares
             }else if(i == cantidad-2){
                 
-                imprimirPrimo(Integer.parseInt(nroOriginal));
+                imprimirPrimoCircular(Integer.parseInt(nroOriginal));
             
             }                   
-            
-//                if((!(primos.contains(Integer.parseInt(intt.toString())))) && Integer.parseInt(intt.toString()) < cota){
-//
-//                    break;
-//
-//                }else if ((Integer.parseInt(intt.toString()) > cota && esPrimo(Integer.parseInt(intt.toString())) && i == cantidad-2)){
-//                    primosCirculares.add(Integer.parseInt(numero));
-//                    break;
-//                    
-//                }else if(i == cantidad-2){
-//                        primosCirculares.add(Integer.parseInt(numero));
-//                }
             
         }
             
@@ -300,7 +279,7 @@ public class Primos {
         return true;
     }
     
-    private void imprimirPrimo(int primo){
+    private void imprimirPrimoCircular(int primo){
         
         //Sincronizo el método para que los hilos trabajen correctamente
         synchronized(this){

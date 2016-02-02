@@ -5,10 +5,6 @@
  */
 package primoscirculares;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  *
  * @author Agustin
@@ -16,7 +12,7 @@ import java.util.List;
 public class PrimosCirculares {
 
     private static final int cantidadHilos = 4;
-    private static final int cota = 200000;
+    private static final int cota = 199;
     
     /**
      * @param args the command line arguments
@@ -25,15 +21,6 @@ public class PrimosCirculares {
         // TODO code application logic here
         
         Primos lista = new Primos(cantidadHilos, cota);
-        
-//        Hilo hilo1 = new Hilo("hilo1");
-//        cantidadHilos = 4;
-//        cota = 200;
-//        
-//        for(int i = 0; i < preprocesados.size(); i++){
-//            orbita(preprocesados.get(i));
-//        }
-//        System.out.println(Arrays.asList(primosCirculares));
         
     }
     
