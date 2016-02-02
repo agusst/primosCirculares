@@ -12,7 +12,7 @@ package primoscirculares;
 public class PrimosCirculares {
 
     private static final int cantidadHilos = 4;
-    private static final int cota = 199;
+    private static final int cota = 1000000;
     
     /**
      * @param args the command line arguments
