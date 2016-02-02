@@ -125,67 +125,7 @@ public class Primos {
         //Recorro la lista de nros primos
         for(int primo: bloquePrimos){
         
-            //Creo una lista para almacenar los dìgitos del nro
-            LinkedList<Integer> stack = new LinkedList<>();
-            
-            //Creo un entero donde almacenar temporalmente los dígitos
-            int nro = primo;
-            
-            //Separo los dígitos del nro
-            while(nro > 0){
-
-                //Coloco el último dígito en la pila
-                stack.push(nro % 10);
-
-                //Quito el último dígito del nro
-                nro = nro / 10;
-
-            }
-            
-            int digitosIguales = 0;
-            
-            //Compruebo si los dígitos del primo son todos iguales
-            for(int i = 0; i < stack.size(); i++){
-                
-                if(Objects.equals(stack.getFirst(), stack.get(i))){
-                    
-                    digitosIguales++;
-                    
-                }
-                
-            }
-            
-            //Si son iguales entonces podemos garantizar que el primo es circular
-            if(digitosIguales != stack.size()){
-                
-                while (!stack.isEmpty()) {
-                    
-                    //Verifico que ningún dígito del primo coincida con alguno 
-                    //de la lista de excluidos ya que si contiene uno de estos  
-                    //dígitos, por propiedad el nro primo no puede ser circular
-                    if(excluidos.contains(stack.pop())){
-                        
-                        //Si un dígito coincide, borro la pila y dejo de comprobar
-                        stack.clear();
-                        
-                        break;
-                        
-                    //Si la pila esta vacía y el último dígito no se corresponde
-                    //con ninguno de los dígitos de la lista de excluidos, añado
-                    //el primo a la lista de preprocesados (por comprobar)
-                    }else if (stack.isEmpty()){
-                        
-                        //Compruebo las rotaciones del primo
-                        orbita(primo);
-                        
-                    }
-                }
-                
-            } else {
-                                
-                imprimirPrimoCircular(primo);
-            
-            }
+            orbita(primo);
             
         }
             
