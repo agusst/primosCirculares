@@ -19,9 +19,9 @@ public class Primos {
     
     private static int cantidadHilos;
     private static int cota;
+    private static int cantidadMin;
     private static int bloque = 1;
     private static int cantidadPrimos = 0;
-    private static int cantidadMin;
     private static int inicioBloque = 0;
     private static int finBloque = 0;
     private static Hilo[] hilos;    
@@ -239,17 +239,27 @@ public class Primos {
             
             //Compruebo si no es primo, dejo de iterar en la órbita del nro, 
             //ya que si una combinación no es prima, el primo no es circular
-            if(!esPrimo(Integer.parseInt(nroRotado.toString()))){
+            if((!(primos.contains(Integer.parseInt(nroRotado.toString()))))){
                 
-                break;
+                if(!esPrimo(Integer.parseInt(nroRotado.toString()))){
+                
+                    break;
+                
+                //Si es la última combinación y el nro es primo, entonces agrego
+                //el primo original a la lista de primos circulares
+                }else if(i == cantidad-2){
+                
+                    imprimirPrimoCircular(Integer.parseInt(nroOriginal));
             
+                }
+                
             //Si es la última combinación y el nro es primo, entonces agrego
-            //el primo original a la lista de primos circulares
+            //el primo original a la lista de primos circulares   
             }else if(i == cantidad-2){
                 
-                imprimirPrimoCircular(Integer.parseInt(nroOriginal));
+                    imprimirPrimoCircular(Integer.parseInt(nroOriginal));
             
-            }                   
+            }
             
         }
             
