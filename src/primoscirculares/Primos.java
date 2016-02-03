@@ -28,8 +28,8 @@ public class Primos {
     private static final List<Integer> primos = new ArrayList<>();
     private static final List<Integer> primosCirculares = new ArrayList<>();
     private static final List<Integer> excluidos = Arrays.asList(0, 2, 4, 5, 6, 8);
+    private static final List<Integer> compuestos = new ArrayList<>();
    
-    
     public Primos(int cantidadHilos, int cota){
         
         Primos.cantidadHilos = cantidadHilos;
@@ -42,9 +42,6 @@ public class Primos {
     
     private void listarPrimos() {
         
-        //Creo una lista para almacenar los números compuestos
-        List<Integer> compuestos = new ArrayList<>();
-
         //La Criba de eratóstenes establece que al llegar a un número cuyo cuadrado
         //sea mayor que la cota superior el algoritmo se detiene.
         //Para ello calculo la raíz cuadrada de la cota superior, tomo la parte entera y le sumo 1.
@@ -210,6 +207,9 @@ public class Primos {
             primo = primo / 10;
             
         }
+        
+        //Defino variable entera donde almacenar el entero rotado
+        int enteroRotado;
                 
         //Compruebo si las combinaciones del primo son también nros primos.
         //La última combinación es la original, ya que sabemos que es primo
@@ -237,27 +237,24 @@ public class Primos {
             
             nroRotado.append(primero);
             
+            enteroRotado = Integer.parseInt(nroRotado.toString());
+            
             //Compruebo si no es primo, dejo de iterar en la órbita del nro, 
             //ya que si una combinación no es prima, el primo no es circular
-            if((!(primos.contains(Integer.parseInt(nroRotado.toString()))))){
+            if(compuestos.contains(enteroRotado)){
                 
-                if(!esPrimo(Integer.parseInt(nroRotado.toString()))){
+                break;
                 
-                    break;
+            //Si es mayor que la cota, compruebo si es primo
+            }else if(enteroRotado > cota && !esPrimo(enteroRotado)){
                 
-                //Si es la última combinación y el nro es primo, entonces agrego
-                //el primo original a la lista de primos circulares
-                }else if(i == cantidad-2){
-                
-                    imprimirPrimoCircular(Integer.parseInt(nroOriginal));
-            
-                }
+                break;
                 
             //Si es la última combinación y el nro es primo, entonces agrego
-            //el primo original a la lista de primos circulares   
+            //el primo original a la lista de primos circulares
             }else if(i == cantidad-2){
                 
-                    imprimirPrimoCircular(Integer.parseInt(nroOriginal));
+                imprimirPrimoCircular(Integer.parseInt(nroOriginal));
             
             }
             
