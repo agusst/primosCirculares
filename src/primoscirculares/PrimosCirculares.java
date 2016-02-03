@@ -20,6 +20,11 @@ public class PrimosCirculares {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        //Imprimo un mensaje en pantalla indicando que el algoritmo esta trabajando
+        System.out.println("Iniciando....");
+        
+        System.out.println("Aguarde, en unos segundos comenzarán a imprimirse en pantalla los nros. primos circulares inferiores a 1.000.000");
+        
         Primos lista = new Primos(cantidadHilos, cota);
         
     }
